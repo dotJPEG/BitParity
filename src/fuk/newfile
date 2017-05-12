@@ -1,0 +1,107 @@
+
+/*******************************************************************************
+ * Program Filename:        Renard_5_BitParity
+ * Author:                  Bob Renard
+ * Date:                    05-11-17
+ * Description:             Create a program to convert ASCII words to single columns of binary values with parity check.
+                            Then add a method to read in similarly constructed binary values (highlighting the errors in red).
+ * Input:                   your name in ASCII
+ * Output:                  your name in binary
+ ******************************************************************************/
+package renard_5_bitparity;
+import java.util.*;
+
+public class Renard_5_BitParity {
+static Scanner scan = new Scanner(System.in);
+static Map<String, Integer> map = new HashMap<String, Integer>() {};
+    public static void main(String[] args) {
+        ArrayList<String> binaryValues = new ArrayList<String>();
+                String s = scan.next();
+        byte[] bytes = s.getBytes();
+        StringBuilder binary = new StringBuilder();
+        for (byte b : bytes)
+        {
+           int val = b;
+           for (int i = 0; i < 8; i++)
+           {
+              binary.append((val & 128) == 0 ? 0 : 1);
+              val <<= 1;
+           }
+           binaryValues.add(binary.toString());
+           binary.delete(0, binary.length());
+        }
+//        char[] temp = s.toCharArray();
+//        for (int i = 0; i < s.length(); i++) {
+//            System.out.println(temp[i] + ": " + binaryValues.get(i));
+//        }
+        //System.out.println(binaryToHam(binary.toString()));
+        
+        for (int i = 0; i < binaryValues.size(); i++) {
+            binaryValues.set(i, binaryToHamPrep(binaryValues.get(i)));
+        }
+        for(String i:binaryValues){
+            System.out.println(i);
+        }
+            
+        
+        
+        //convert from binary to hamming now   
+    }
+    
+    public static String binaryToHamPrep(String binary){
+        //10101010 --> ##0#000#0000
+        //If the number of 1s is 0 or even, set check bit to 0.
+        //If the number of 1s is 1 or odd, set check bit to 1. 
+        
+        StringBuilder temp = new StringBuilder();
+        temp.append(binary);
+        temp.insert(4, "3");
+        temp.insert(1, "3");
+        temp.insert(0, "3");
+        temp.insert(0, "3");
+        String out = temp.toString();
+        char[] arr = out.toCharArray();
+        int num = 1;
+        int tempInt;
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i]=='3' || arr[i] == 51){
+                for(int j = i; j < arr.length; j+=0){
+                    
+                }
+                
+                num *=2;
+            }
+        }
+        return out;
+    }
+}
+
+
+//
+//for (int i = 0; i < test.length; i++) {
+//            System.out.print(test[i]);
+//        }
+//        
+//        
+//            int num = 1;
+//        for (int i = 0; i < test.length; i++) {
+//            int temp=0;
+//            if(i%num==0){
+//                for (int j = i; j < i+num; j++) {
+//                    temp+=test[j];
+//                }
+//                if(temp%2==0){
+//                    test[i]=0;
+//                }else{
+//                    test[i]=1;
+//                }
+//                i+=(num);
+//                System.out.println("i: "+i);
+//                num*=2;
+//            }
+//            System.out.println(test[i]);
+//        }
+//        System.out.println("");
+//        for(int i = 0; i < test.length; i++){
+//            System.out.print(test[i]);
+//        }
